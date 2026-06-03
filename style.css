@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+:root {
+  --bg:       #09090B;
+  --surface:  #111113;
+  --card:     #18181B;
+  --border:   #27272A;
+  --border-h: #3F3F46;
+  --text-1:   #FAFAFA;
+  --text-2:   #A1A1AA;
+  --text-3:   #52525B;
+  --accent:   #6366F1;
+  --accent-bg:#1E1E3A;
+  --green:    #22C55E;
+  --green-bg: #0D1F17;
+  --amber:    #F59E0B;
+  --amber-bg: #1C1507;
+  --r:        6px;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.dsa-root {
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 560px;
+  padding: 0 0 32px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-title {
+  font-size: 13px; 
+  font-weight: 600;
+  color: var(--text-1); 
+  letter-spacing: .3px;
+}
+
+.topbar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+#typeof_data_structure {
+    font-size: 11px; color: var(--text-3);
+    background: #1C1C1F; border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 8px;
+}
+
