@@ -3,29 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSA Playground</title>
+    <title>DSA Playground - Interactive Data Structures & Algorithms Visualizer</title>
+    <meta name="description" content="Interactive laboratory and visualizer for Linear (Array, Linked List, Stack, Queue) and Non-Linear (Binary Search Tree, Graph) Data Structures with step-by-step animation, Big-O complexity matrix, and live pseudocode.">
+    <meta name="keywords" content="data structures, algorithms, visualizer, dsa, array, linked list, stack, queue, binary search tree, bst, graph, bfs, dfs, big-o, time complexity, memory allocation">
+    <meta name="author" content="Fikri">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://localhost:3000/">
+
+    <meta property="og:title" content="DSA Playground - Interactive Data Structure Visualizer">
+    <meta property="og:description" content="Master data structures and algorithms with interactive animations, real-time memory address visualizer, Big-O reference matrix, and live code traces.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:3000/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DSA Playground - Interactive Visualizer">
+    <meta name="twitter:description" content="Interactive laboratory for data structures with live code and step animations.">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366F1'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='44' font-family='monospace' font-weight='bold' fill='white'>DSA</text></svg>">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DSA Playground",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "description": "Interactive laboratory and visualizer for Linear and Non-Linear Data Structures.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dsa-root">
-
     <header class="topbar">
-        <div class="topbar-left">
+        <div class="topbar-brand">
             <div class="topbar-dot"></div>
             <span class="topbar-title">dsa-playground</span>
+            <span class="version-badge">v1.0</span>
         </div>
 
-        <select name="typeof_data_structure" id="typeof_data_structure" class="">
-            <option value="linear">Linear</option>
-            <option value="non_linear">Non Linear</option>
-        </select>
+        <div class="topbar-center">
+            <div class="category-selector-wrap">
+                <label for="typeof_data_structure" class="selector-label">Category:</label>
+                <select name="typeof_data_structure" id="typeof_data_structure">
+                    <option value="linear">Linear Structures</option>
+                    <option value="nonLinear">Non-Linear Structures</option>
+                </select>
+            </div>
+            
+            <nav class="ds-nav-wrap" aria-label="Data Structure Navigation">
+                <ul id="data_structure" class="ds-pills"></ul>
+            </nav>
+        </div>
+
+        <div class="topbar-right">
+            <div class="speed-control-wrap">
+                <label for="anim_speed">Speed: <span id="speed_value">1x</span></label>
+                <input type="range" id="anim_speed" min="0.25" max="2.5" step="0.25" value="1">
+            </div>
+            <button id="btn_reset_all" class="btn-secondary btn-icon" title="Reset Current Data Structure">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>Reset</span>
+            </button>
+        </div>
     </header>
 
-    <div class="tab"></div>
+    <main class="playground-layout">
+        <section class="visualizer-container" aria-label="Visualizer Arena">
+            <div class="stage-header">
+                <div class="stage-title-wrap">
+                    <h1 id="current_ds_title">Array</h1>
+                    <span id="current_ds_desc" class="stage-desc">Contiguous memory allocation with constant-time indexing</span>
+                </div>
+                <div class="stage-badges" id="ds_status_badges">
+                    <span class="badge badge-info" id="badge_size">Size: 0</span>
+                    <span class="badge badge-accent" id="badge_capacity">Capacity: 8</span>
+                </div>
+            </div>
 
-    <main></main>
+            <div class="visualizer-stage" id="visualizer_stage"></div>
 
-    <footer></footer>
+            <div class="control-deck" id="control_deck">
+                <div class="deck-header">
+                    <span class="deck-title">Operations & Controls</span>
+                    <span id="deck_hint" class="deck-hint">Select an operation below</span>
+                </div>
+                <div class="deck-forms" id="operations_container"></div>
+            </div>
+        </section>
 
-    <script src="js/main.js"></script>
+        <aside class="sidebar-inspector" aria-label="Algorithm Inspector and Complexity">
+            <div class="inspector-tabs">
+                <button class="tab-btn active" data-tab="tab_code">Algorithm & Code</button>
+                <button class="tab-btn" data-tab="tab_complexity">Complexity (Big-O)</button>
+                <button class="tab-btn" data-tab="tab_theory">Theory & Memory</button>
+            </div>
+
+            <div class="tab-pane active" id="tab_code">
+                <div class="code-header">
+                    <span id="code_operation_name">Operation: Initialize</span>
+                    <span class="code-lang-tag">JavaScript / Logic</span>
+                </div>
+                <div class="code-viewer" id="code_viewer">
+                    <pre><code id="code_content"></code></pre>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab_complexity">
+                <div class="complexity-card">
+                    <div class="complexity-title">Time Complexity</div>
+                    <table class="complexity-table">
+                        <thead>
+                            <tr>
+                                <th>Operation</th>
+                                <th>Average</th>
+                                <th>Worst Case</th>
+                            </tr>
+                        </thead>
+                        <tbody id="time_complexity_tbody"></tbody>
+                    </table>
+                </div>
+
+                <div class="complexity-card">
+                    <div class="complexity-title">Space Complexity</div>
+                    <div class="space-badge-wrap">
+                        <div class="space-item">
+                            <span class="space-label">Worst Case:</span>
+                            <span class="badge badge-accent" id="space_complexity_val">O(n)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tab_theory">
+                <div class="theory-card" id="theory_content"></div>
+            </div>
+
+            <div class="logs-container">
+                <div class="logs-header">
+                    <span>Execution Trace & Step Narrator</span>
+                    <button id="btn_clear_logs" class="btn-text">Clear</button>
+                </div>
+                <div class="logs-body" id="logs_body">
+                    <div class="log-entry log-info">
+                        <span class="log-time">[Init]</span>
+                        <span class="log-msg">Welcome to DSA Playground. Select a structure to start visualizing.</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="app-footer">
+        <p>Built by Fikri © 2026 • Interactive DSA Laboratory with Vanilla JS, HTML5 & CSS3</p>
+    </footer>
+
+    <script src="./script.js"></script>
 </body>
 </html>
